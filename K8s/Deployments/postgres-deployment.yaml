@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-deployment
+  namespace: instabug
+  labels:
+   tier: backend
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      tier: backend
+      app: postgres
+
+  template:
+    metadata:
+      name: postgres-pod
+      namespace: instabug
+      labels:
+        tier: backend
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:12.1
+          env:
+          - name: POSTGRES_USER
+            valueFrom:
+               configMapKeyRef:
+                name: postgres-configmap
+                key: DB_USER
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: postgres-secret
+                key: DB_PASSWORD
+          volumeMounts:
+            - mountPath: "/var/lib/postgresql/data"
+              name: postgres-volume
+          ports:
+            - containerPort: 5432
+      volumes:
+        - name: postgres-volume
+          persistentVolumeClaim:
+            claimName: postgres-pvc

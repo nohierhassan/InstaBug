@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  namespace: instabug
+  labels:
+   tier: frontend
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      tier: frontend
+      app: nginx
+
+  template:
+    metadata:
+      name: nginx-pod
+      namespace: instabug
+      labels:
+        tier: frontend
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nohierhassan/dockerizing-ruby-nginx:latest
+          ports:
+            - containerPort: 8020
+
+
+

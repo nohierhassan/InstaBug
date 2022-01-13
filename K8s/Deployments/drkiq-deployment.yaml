@@ -1,0 +1,44 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: drkiq-deployment
+  namespace: instabug
+  labels:
+   tier: backend
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      tier: backend
+      app: drkiq
+
+  template:
+    metadata:
+      name: postgres-pod
+      namespace: instabug
+      labels:
+        tier: backend
+        app: drkiq
+    spec:
+      containers:
+        - name: drkiq
+          image: nohierhassan/dockerizing-ruby-drkiq:latest
+          # resources:
+          # requests:
+          #   memory: "200Mi"
+          #   cpu: "250m"
+          # limits:
+          #   memory: "500Mi"
+          #   cpu: "500m"
+          envFrom:
+            - configMapRef:
+                name: shared-configmap
+            - secretRef:
+                name: shared-secret
+
+          ports:
+            - containerPort: 8010
+

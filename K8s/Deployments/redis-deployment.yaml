@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-deployment
+  namespace: instabug
+  labels:
+   tier: backend
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      tier: backend
+      app: redis
+
+  template:
+    metadata:
+      name: redis-pod
+      namespace: instabug
+      labels:
+        tier: backend
+        app: redis
+    spec:
+      containers:
+        - name: redis
+          image: redis:5.0.7
+          volumeMounts:
+            - mountPath: "/var/lib/redis/data"
+              name: redis-volume
+          ports:
+            - containerPort: 6379
+      volumes:
+        - name: redis-volume
+          persistentVolumeClaim:
+            claimName: redis-pvc
+
+
