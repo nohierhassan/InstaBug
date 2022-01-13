@@ -10,4 +10,4 @@ data:
   LISTEN_ON: "0.0.0.0:8010"
   CACHE_URL: "redis://redis:6379/0"
   JOB_WORKER_URL: "redis://redis:6379/0"
-  DATABASE_URL: "postgresql://drkiq:test_db_password@postgres:5432/drkiq?encoding=utf8&pool=5&timeout=5000"
+  DATABASE_URL: "postgresql://drkiq:mysecretpassword@postgres:5432/drkiq?encoding=utf8&pool=5&timeout=5000"
