@@ -4,4 +4,6 @@ metadata:
   name: postgres-configmap
   namespace: instabug
 data:
-  DB_USER: "drkiq"
+  POSTGRES_USER: "drkiq"
+  PGDATA: "/var/lib/postgresql/data/pgdata"
+  
