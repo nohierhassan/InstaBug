@@ -25,10 +25,20 @@ spec:
     spec:
       containers:
         - name: sidekiq
-          image: nohierhassan/dockerizing-ruby-drkiq:latest
+          image: nohierhassan/dockerizing-ruby-drkiq:v1
+          command: ['bundle']
+          args: ['exec', 'sidekiq']
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "500m"
+            limits:
+              memory: "256Mi"
+              cpu: "1000m"
           envFrom:
-            - configMapRef:
-                name: shared-configmap
             - secretRef:
                 name: shared-secret
+            - configMapRef:
+                name: shared-configmap
+  
 

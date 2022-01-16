@@ -5,43 +5,50 @@ metadata:
   namespace: instabug
   labels:
    tier: backend
-
 spec:
   replicas: 1
-
   selector:
     matchLabels:
-      tier: backend
       app: postgres
-
   template:
     metadata:
-      name: postgres-pod
-      namespace: instabug
       labels:
-        tier: backend
         app: postgres
     spec:
-      containers:
-        - name: postgres
-          image: postgres:12.1
-          env:
-          - name: POSTGRES_USER
-            valueFrom:
-               configMapKeyRef:
-                name: postgres-configmap
-                key: DB_USER
-          - name: POSTGRES_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: postgres-secret
-                key: DB_PASSWORD
-          volumeMounts:
-            - mountPath: "/var/lib/postgresql/data"
-              name: postgres-volume
-          ports:
-            - containerPort: 5432
       volumes:
-        - name: postgres-volume
-          persistentVolumeClaim:
-            claimName: postgres-pvc
+      - name: postgres-pv-storage
+        persistentVolumeClaim:
+          claimName: postgres-pvc
+      containers:
+      - name: postgres
+        image: postgres:12.1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secret-config
+              key: password
+        - name: POSTGRES_USER
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-configmap
+              key: POSTGRES_USER
+        - name: PGDATA
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-configmap
+              key: PGDATA
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: postgres-pv-storage
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "500m"
+          limits:
+            memory: "256Mi"
+            cpu: "1000m"
+

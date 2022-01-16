@@ -25,8 +25,12 @@ spec:
       containers:
         - name: nginx
           image: nohierhassan/dockerizing-ruby-nginx:latest
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "500m"
+            limits:
+              memory: "256Mi"
+              cpu: "1000m"
           ports:
             - containerPort: 8020
-
-
-

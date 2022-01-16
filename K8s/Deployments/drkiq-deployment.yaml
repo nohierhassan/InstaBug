@@ -1,4 +1,3 @@
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -25,20 +24,19 @@ spec:
     spec:
       containers:
         - name: drkiq
-          image: nohierhassan/dockerizing-ruby-drkiq:latest
-          # resources:
-          # requests:
-          #   memory: "200Mi"
-          #   cpu: "250m"
-          # limits:
-          #   memory: "500Mi"
-          #   cpu: "500m"
+          image: nohierhassan/dockerizing-ruby-drkiq:v10
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "500m"
+            limits:
+              memory: "256Mi"
+              cpu: "1000m"
           envFrom:
-            - configMapRef:
-                name: shared-configmap
             - secretRef:
                 name: shared-secret
-
+            - configMapRef:
+                name: shared-configmap
           ports:
             - containerPort: 8010
 
