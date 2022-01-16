@@ -6,8 +6,8 @@ metadata:
 spec:
   storageClassName: manual
   capacity:
-    storage: 200Mi
+    storage: 500Mi
   accessModes:
-    - ReadWriteOnce
+  - ReadWriteOnce
   hostPath:
-    path: "/home/ubuntu/Volumes/redis"
+   path: "/mnt/data/redis"
