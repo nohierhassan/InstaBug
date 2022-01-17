@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
         - name: drkiq
-          image: nohierhassan/dockerizing-ruby-drkiq:v10
+          image: nohierhassan/dockerizing-ruby-drkiq:v13
           resources:
             requests:
               memory: "128Mi"
