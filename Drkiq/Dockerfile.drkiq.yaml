@@ -1,3 +1,6 @@
+# Dockerfile development version
+FROM registry.semaphoreci.com/ruby:2.7
+
 # Default directory
 ENV INSTALL_PATH /opt/app
 RUN mkdir -p $INSTALL_PATH
@@ -19,4 +22,6 @@ RUN bundle install
 RUN yarn install
 RUN yarn install --check-files
 #RUN yarn --update-checksums
-CMD bundle exec unicorn -c config/unicorn.rb
+RUN chmod +x start.sh
+#CMD bundle exec unicorn -c config/unicorn.rb && ./start.sh
+CMD ["./start.sh"]
